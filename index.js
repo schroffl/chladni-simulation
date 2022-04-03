@@ -162,7 +162,7 @@ const drawMesh = regl({
         range: [0, 1]
     },
     cull: {
-        enable: false,
+        enable: true,
         face: 'front',
     },
 
