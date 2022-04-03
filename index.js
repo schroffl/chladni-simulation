@@ -116,8 +116,8 @@ const drawMesh = regl({
 
             vec3 normal = cross(p3 - p1, p2 - p1);
 
-            vec3 ambient_light = vec3(0.04);
-            vec3 directional_light_color = vec3(0.3, 0.5, 1.0);
+            vec3 ambient_light = vec3(0.6);
+            vec3 directional_light_color = vec3(0.3, 0.5, 0.2);
             vec3 directional_vector = vec3(0.85, 0.8, 0.0);
 
             vec4 transformed_normal = normal_mat * vec4(normal, 1.0);
