@@ -67,9 +67,9 @@ for (let x = 0; x < w - 1; x++) {
         plate_elements[tri_idx * 3 * 2 + 1] = i + 1;
         plate_elements[tri_idx * 3 * 2 + 2] = ni;
 
-        plate_elements[i * 3 * 2 + 3] = i + 1;
-        plate_elements[i * 3 * 2 + 4] = ni + 1;
-        plate_elements[i * 3 * 2 + 5] = ni;
+        plate_elements[tri_idx * 3 * 2 + 3] = i + 1;
+        plate_elements[tri_idx * 3 * 2 + 4] = ni + 1;
+        plate_elements[tri_idx * 3 * 2 + 5] = ni;
     }
 }
 
