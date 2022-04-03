@@ -92,6 +92,7 @@ const drawMesh = regl({
         uniform mat4 camera, normal_mat, model_mat;
         uniform float n, m, L, t;
 
+        varying float z;
         varying vec3 vLighting;
 
         float chladni(vec2 pos) {
@@ -124,6 +125,8 @@ const drawMesh = regl({
 
             vLighting = ambient_light + (directional_light_color * directional);
 
+            z = p1.y;
+
             gl_PointSize = 2.0;
             gl_Position = camera * vec4(p1, 1.0);
         }
@@ -132,9 +135,11 @@ const drawMesh = regl({
         precision mediump float;
 
         varying vec3 vLighting;
+        varying float z;
 
         void main() {
-            vec4 texel = vec4(1.0);
+            vec4 color = vec4(1.0, 0.0, 0.3, 1.0);
+            vec4 texel = abs(z) < 0.1 ? vec4(0.0, 0.0, 0.3, 1.0) : color;
             gl_FragColor = vec4(texel.rgb * vLighting, 1.0);
         }
     `,
