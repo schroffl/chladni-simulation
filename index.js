@@ -1,4 +1,7 @@
-const regl = createREGL();
+const regl = createREGL({
+    extensions: ['OES_element_index_uint'],
+});
+
 const mat4 = glMatrix.mat4;
 const vec3 = glMatrix.vec3;
 
@@ -45,7 +48,7 @@ function makeSlider(config) {
 }
 
 const plate_points_raw = new Float32Array(w * h * 2);
-const plate_elements = new Uint16Array((w - 1) * (h - 1) * 3 * 2);
+const plate_elements = new Uint32Array((w - 1) * (h - 1) * 3 * 2);
 
 for (let x = 0; x < w; x++) {
     for (let y = 0; y < h; y++) {
