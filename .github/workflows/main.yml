@@ -10,7 +10,7 @@ jobs:
         with:
           version: master
       - name: Build
-        run: "mkdir -p public/zig-mesh && cd zig-mesh && zig build -Drelease-fast && cp ./zig-out ../public/zig-mesh"
+        run: "mkdir -p public/zig-mesh && cd zig-mesh && zig build -Drelease-fast && cp -r ./zig-out ../public/zig-mesh"
       - name: Copy HTML & JS
         run: "cp *.html public/ && cp *.js public/ && cp zig-mesh/*.js public/zig-mesh/"
       - name: Deploy to GitHub Pages
