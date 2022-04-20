@@ -18,7 +18,7 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v1
         with:
           target_branch: gh-pages
-          build_dir: .
+          build_dir: public
           allow_empty_commit: false
           committer_name: github-actions
           committer_email: ""
