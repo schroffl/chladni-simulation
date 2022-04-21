@@ -1,7 +1,14 @@
+const query = parseQueryString(location.search.replace(/^\?/, ''));
+const DO_PROFILE = query.profile;
+
 const mat4 = glMatrix.mat4;
 const vec3 = glMatrix.vec3;
 const regl = createREGL({
-    extensions: ['OES_element_index_uint', 'ANGLE_instanced_arrays'],
+    extensions: [
+        'OES_element_index_uint',
+        'ANGLE_instanced_arrays',
+    ].concat(DO_PROFILE ? ['EXT_disjoint_timer_query'] : []),
+    profile: DO_PROFILE,
 });
 
 const canvas = document.body.querySelector('canvas');
@@ -476,6 +483,12 @@ canvas.addEventListener('mousemove', e => {
     mouse_position.y = y / e.target.clientHeight;
 });
 
+const group_stats = trackGroupStats({
+    particles: drawParticles,
+    picking: drawParticlePicking,
+    plate: drawPlate,
+});
+
 Mesh.init({
     width: w,
     height: h,
@@ -550,6 +563,22 @@ Mesh.init({
                 camera: camera,
                 size: [w, h],
             });
+        }
+
+        if (DO_PROFILE) {
+            group_stats.update();
+
+            const elem = document.getElementById('stats_elem');
+            elem.innerText = '';
+
+            for (const target in group_stats.stats) {
+                const data = group_stats.stats[target];
+                elem.innerText += `${target}:\n`;
+
+                for (const key in data) {
+                    elem.innerText += `  ${key}: ${data[key].toFixed(3)}\n`;
+                }
+            }
         }
     });
 });
@@ -687,4 +716,58 @@ function selectFile(accept, onchange) {
 
     document.body.appendChild(file_input);
     file_input.click();
+}
+
+function trackStats(target) {
+    const keys = ['gpuTime', 'cpuTime'];
+    const last_frame = {};
+    const stats = {};
+
+    keys.forEach(key => last_frame[key] = stats[key] = 0);
+
+    return {
+        update: () => {
+            for (const key of keys) {
+                stats[key] = target.stats[key] - last_frame[key];
+                last_frame[key] = target.stats[key];
+            }
+        },
+        stats: stats,
+    };
+}
+
+function trackGroupStats(targets) {
+    const trackers = {};
+    const stats = {};
+
+    for (const key in targets) {
+        trackers[key] = trackStats(targets[key]);
+        trackers[key].update();
+        stats[key] = trackers[key].stats;
+    }
+
+    return {
+        update: () => {
+            for (const key in trackers) {
+                trackers[key].update();
+            }
+        },
+        stats: stats,
+    };
+}
+
+function parseQueryString(query_str) {
+    const raw = query_str.trim();
+
+    if (raw.length === 0) return {};
+
+    const pairs = raw.split('&');
+
+    return pairs.reduce((map, pair) => {
+        const parts = pair.split('=');
+        const key = decodeURIComponent(parts[0]);
+        const value = parts.length > 1 ? decodeURIComponent(parts[1]) : true;
+        map[key] = value;
+        return map;
+    }, {});
 }

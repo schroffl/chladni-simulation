@@ -28,10 +28,24 @@
             .overlay:hover {
                 opacity: 1;
             }
+
+            .stats {
+                white-space: pre-wrap;
+                width: 200px;
+                z-index: 1;
+
+                position: fixed;
+                top: 0px;
+                left: 0px;
+
+                font-family: monospace;
+                pointer-events: none;
+            }
         </style>
     </head>
     <body>
         <div class="overlay"></div>
+        <div class="stats" id="stats_elem"></div>
         <script src="./zig-mesh/wasm.js"></script>
         <script src="./spring.js"></script>
     </body>
