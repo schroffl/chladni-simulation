@@ -1,4 +1,10 @@
 The original idea of this repository was to simulate [chladni figures](https://en.wikipedia.org/wiki/Ernst_Chladni#Chladni_figures), but I wasn't really able to produce recognizable ones. It's still fun to listen to some music and play around with, though.
+Here's a demo video. The song is *The Hole Pt. 1* by *Noisia*. Apologies for the short duration and horrible video quality, but I had to work hard to get the file size down to the 10MB limit for GitHub.
+
+
+https://github.com/schroffl/chladni-simulation/assets/12176994/95e12bac-f94b-4290-9123-8f89b8fbdb06
+
+
 
 #### Implementation details
 
@@ -39,7 +45,7 @@ I have tried the following to make the simulation more "realistic", but I don't 
 
 * Only actually render the visualization at 60 frames per second or whatever the desired rate is.
 
-However, this makes it unwatchable, because you have to wait a pretty large amount of time between every video frame. Assuming an audio sampling rate $A=44100$, a visual sampling rate $V = 60$ and a simulation execution time $t=2\text{ms}$ for every audio frame, you would get  $\frac{tA}{V} = \frac{44100\text{Hz}\ *\ 2\text{ms}}{60\text{Hz}} = 1470\text{ms}$ between redraws – or something like less than a single frame per second. Of course, $t$ was chosen rather arbitrarly here and depends on a lot of factors like the CPU, the amount of iterations, the mesh size, etc. – but the point is that you probably can't throw enough hardware on it to make it feasible to run in realtime.
+However, this makes it unwatchable, because you have to wait a pretty large amount of time between every video frame. Assuming an audio sampling rate $A=44100$, a visual sampling rate $V = 60$ and a simulation execution time $t=2\text{ms}$ for every audio frame, you would get  $\frac{tA}{V} = \frac{44100\text{Hz}\ *\ 2\text{ms}}{60\text{Hz}} = 1470\text{ms}$ between redraws – or something like less than a single frame per second. Of course, $t$ was chosen rather arbitrarily here and depends on a lot of factors like the CPU, the amount of iterations, the mesh size, etc. – but the point is that you probably can't throw enough hardware on it to make it feasible to run in realtime.
 
 You can work around this issue by assembling all of the frames into a video, but last time I checked there was no easy way to do this *in the browser*. Mind you I wrote this code more than one year ago and things seem to have changed in the meantime. I recently stumbled across the [WebCodecs API](https://developer.mozilla.org/en-US/docs/Web/API/WebCodecs_API), which sounds like it could do the job. But this is yet another task for another day.
 
