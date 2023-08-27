@@ -5,34 +5,48 @@
         <title></title>
         <script src="https://npmcdn.com/regl@2.1.0/dist/regl.js"></script>
         <script src="https://unpkg.com/gl-matrix@3.4.3/gl-matrix.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lil-gui@0.16"></script>
 
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
 
         <style>
-            .controls {
-                position: fixed;
-                z-index: 1;
-
-                width: min(300px, 100vw);
+            body {
+                background-color: black;
             }
 
-            .custom-input {
-                display: flex;
-                flex-direction: column;
+            .overlay {
+                --width: 250px;
+
+                position: fixed;
+                opacity: 0.5;
+                background-color: black;
+                z-index: 1;
+                box-shadow: 0px 0px 5px 0px black;
+            }
+            .overlay:hover {
+                opacity: 1;
+            }
+
+            .stats {
+                white-space: pre-wrap;
+                width: 200px;
+                z-index: 1;
+
+                position: fixed;
+                top: 0px;
+                left: 0px;
 
                 font-family: monospace;
-                font-size: 2rem;
-                color: white;
-
-                padding: 8px;
-                border-bottom: 1px solid black;
+                pointer-events: none;
             }
         </style>
     </head>
     <body>
-        <div class="controls"></div>
-        <script src="./index.js"></script>
+        <div class="overlay"></div>
+        <div class="stats" id="stats_elem"></div>
+        <script src="./zig-mesh/wasm.js"></script>
+        <script src="./spring.js"></script>
     </body>
 </html>
