@@ -35,8 +35,8 @@ pub fn init(allocator: std.mem.Allocator, config: Config) !Mesh {
         while (y < config.height) : (y += 1) {
             const idx = y * config.width + x;
 
-            const px = @intToFloat(f32, x) - @intToFloat(f32, config.width) / 2;
-            const py = @intToFloat(f32, y) - @intToFloat(f32, config.height) / 2;
+            const px = @as(f32, @floatFromInt(x)) - @as(f32, @floatFromInt(config.width)) / 2;
+            const py = @as(f32, @floatFromInt(y)) - @as(f32, @floatFromInt(config.height)) / 2;
 
             const is_edge = x == 0 or x == config.width - 1 or y == 0 or y == config.height - 1;
             _ = is_edge;
@@ -106,8 +106,8 @@ pub fn getPoint(self: *Mesh, x: isize, y: isize) ?*Point {
     @setRuntimeSafety(false);
 
     if (x >= 0 and x < self.config.width and y >= 0 and y < self.config.height) {
-        const w = @intCast(isize, self.config.width);
-        const idx = @intCast(usize, y * w + x);
+        const w = @as(isize, @intCast(self.config.width));
+        const idx = @as(usize, @intCast(y * w + x));
         return &self.points[idx];
     }
 
@@ -122,7 +122,7 @@ pub fn fillVertexBuffer(self: *Mesh, out: []f32) void {
         return;
     }
 
-    const width = @intCast(isize, self.config.width);
+    const width = @as(isize, @intCast(self.config.width));
     const height = self.config.height;
 
     var x: isize = 0;
@@ -132,8 +132,8 @@ pub fn fillVertexBuffer(self: *Mesh, out: []f32) void {
 
         while (y < height) : (y += 1) {
             const point = self.getPoint(x, y).?;
-            const right = if (self.getPoint(x + 1, y)) |p| p.position else Vec3.init(@intToFloat(f32, x) + 1, point.position.y, @intToFloat(f32, y));
-            const bottom = if (self.getPoint(x, y + y)) |p| p.position else Vec3.init(@intToFloat(f32, x), point.position.y, @intToFloat(f32, y) + 1);
+            const right = if (self.getPoint(x + 1, y)) |p| p.position else Vec3.init(@as(f32, @floatFromInt(x)) + 1, point.position.y, @as(f32, @floatFromInt(y)));
+            const bottom = if (self.getPoint(x, y + y)) |p| p.position else Vec3.init(@as(f32, @floatFromInt(x)), point.position.y, @as(f32, @floatFromInt(y)) + 1);
 
             const cross_product = Vec3.cross(
                 right.subtract(point.position),
@@ -142,7 +142,7 @@ pub fn fillVertexBuffer(self: *Mesh, out: []f32) void {
 
             const normal = cross_product.scale(1.0 / cross_product.length());
 
-            const idx = @intCast(usize, y * width + x) * 6;
+            const idx = @as(usize, @intCast(y * width + x)) * 6;
 
             const pos = point.position;
             out[idx + 0] = pos.x;

@@ -1,19 +1,18 @@
 const std = @import("std");
 
 pub fn build(b: *std.build.Builder) void {
-    // Standard release options allow the person running `zig build` to select
-    // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall.
-    const mode = b.standardReleaseOptions();
-
-    const lib_step = b.addSharedLibrary("zig-mesh", "src/main.zig", .{
-        .unversioned = {},
+    const lib_step = b.addSharedLibrary(.{
+        .name = "zig-mesh",
+        .root_source_file = .{ .path = "src/main.zig" },
+        .optimize = .ReleaseFast,
+        .target = .{
+            .cpu_arch = .wasm32,
+            .os_tag = .freestanding,
+        },
     });
 
-    lib_step.setTarget(.{
-        .cpu_arch = .wasm32,
-        .os_tag = .freestanding,
-    });
+    // Needed to make the exported functions available to JavaScript.
+    lib_step.rdynamic = true;
 
-    lib_step.setBuildMode(mode);
-    lib_step.install();
+    b.installArtifact(lib_step);
 }
