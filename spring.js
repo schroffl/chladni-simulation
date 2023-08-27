@@ -88,28 +88,28 @@ const settings = {
     }
 };
 
-const setup_settings = gui.addFolder('Initial Conditions');
-setup_settings.add(settings, 'width', 2, 200).name('Width');
-setup_settings.add(settings, 'height', 2, 200).name('Height');
-setup_settings.add(settings, 'spacing', 0.1, 5).name('Particle Spacing');
-setup_settings.add(settings, 'constrain').options(['edges', 'corners', 'none']).name('Constrain');
-setup_settings.add(settings, 'resetMesh').name('Apply');
+// const setup_settings = gui.addFolder('Initial Conditions');
+// setup_settings.add(settings, 'width', 2, 200).name('Width');
+// setup_settings.add(settings, 'height', 2, 200).name('Height');
+// setup_settings.add(settings, 'spacing', 0.1, 5).name('Particle Spacing');
+// setup_settings.add(settings, 'constrain').options(['edges', 'corners', 'none']).name('Constrain');
+// setup_settings.add(settings, 'resetMesh').name('Apply');
 
 const constraint_settings = gui.addFolder('Constraints');
-constraint_settings.add(settings, 'iterations', 1, 30, 1);
-constraint_settings.add(settings, 'tension', Number.EPSILON, 2);
-constraint_settings.add(settings, 'sample_scale', 0, 100);
+constraint_settings.add(settings, 'iterations', 1, 30, 1).name('Iterations');
+constraint_settings.add(settings, 'tension', Number.EPSILON, 2).name('Tension');
+constraint_settings.add(settings, 'sample_scale', 0, 100).name('Sample scale');
 
 const graphic_settings = gui.addFolder('Rendering');
 graphic_settings.add(settings, 'particles').name('Draw Particles');
 graphic_settings.add(settings, 'plate').name('Draw Plate');
 
 graphic_settings.add(settings, 'particle_scale', 0.1, 10).name('Particle Scale');
-graphic_settings.add(settings, 'threshold', 0, 1);
-graphic_settings.addColor(settings, 'above', 255);
-graphic_settings.addColor(settings, 'below', 255);
-graphic_settings.addColor(settings, 'zero', 255);
-graphic_settings.addColor(settings, 'background', 255);
+graphic_settings.add(settings, 'threshold', 0, 1).name('Zero Threshold');
+graphic_settings.addColor(settings, 'above', 255).name('Positive');
+graphic_settings.addColor(settings, 'below', 255).name('Negative');
+graphic_settings.addColor(settings, 'zero', 255).name('Zero');
+graphic_settings.addColor(settings, 'background', 255).name('Background');
 
 const audio_settings = gui.addFolder('Audio');
 audio_settings.add(settings, 'uploadAudio').name('Upload Audio');
