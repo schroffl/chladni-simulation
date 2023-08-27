@@ -42,11 +42,10 @@ pub fn init(allocator: std.mem.Allocator, config: Config) !Mesh {
             _ = is_edge;
 
             const is_corner = (x == 0 and y == 0) or (x == 0 and y == config.height - 1) or (x == config.width - 1 and y == 0) or (x == config.width - 1 and y == config.height - 1);
-            _ = is_corner;
 
             self.points[idx] = Point{
                 .position = Vec3.init(px * config.spacing, 0, py * config.spacing),
-                .fixed = is_edge,
+                .fixed = is_corner,
             };
         }
     }
@@ -170,7 +169,7 @@ fn satisfy(p1: *Point, p2: *Point, rest_length: f32) void {
     const mass_p2: f32 = if (p2.fixed) fixed_mass else 1;
 
     const diff = (dist - rest_length) / ((rest_length + dist) * (mass_p1 + mass_p2));
-    const force_scale = Vec3.init(1, 1, 1);
+    const force_scale = Vec3.init(0, 1, 0);
 
     const dir_p1 = delta.scale(mass_p1 * diff).multiply(force_scale);
     p1.position = p1.position.add(dir_p1);
