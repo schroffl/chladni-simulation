@@ -101,8 +101,8 @@ constraint_settings.add(settings, 'tension', Number.EPSILON, 2).name('Tension');
 constraint_settings.add(settings, 'sample_scale', 0, 100).name('Sample scale');
 
 const graphic_settings = gui.addFolder('Rendering');
-graphic_settings.add(settings, 'particles').name('Draw Particles');
-graphic_settings.add(settings, 'plate').name('Draw Plate');
+// graphic_settings.add(settings, 'particles').name('Draw Particles');
+// graphic_settings.add(settings, 'plate').name('Draw Plate');
 
 graphic_settings.add(settings, 'particle_scale', 0.1, 10).name('Particle Scale');
 graphic_settings.add(settings, 'threshold', 0, 1).name('Zero Threshold');

@@ -130,27 +130,27 @@ pub fn fillVertexBuffer(self: *Mesh, out: []f32) void {
         var y: isize = 0;
 
         while (y < height) : (y += 1) {
-            const point = self.getPoint(x, y).?;
-            const right = if (self.getPoint(x + 1, y)) |p| p.position else Vec3.init(@as(f32, @floatFromInt(x)) + 1, point.position.y, @as(f32, @floatFromInt(y)));
-            const bottom = if (self.getPoint(x, y + y)) |p| p.position else Vec3.init(@as(f32, @floatFromInt(x)), point.position.y, @as(f32, @floatFromInt(y)) + 1);
-
-            const cross_product = Vec3.cross(
-                right.subtract(point.position),
-                bottom.subtract(point.position),
-            );
-
-            const normal = cross_product.scale(1.0 / cross_product.length());
-
             const idx = @as(usize, @intCast(y * width + x)) * 6;
-
+            const point = self.getPoint(x, y).?;
             const pos = point.position;
+
             out[idx + 0] = pos.x;
-            out[idx + 1] = pos.y * 5;
+            out[idx + 1] = pos.y * 10;
             out[idx + 2] = pos.z;
 
-            out[idx + 3] = normal.x;
-            out[idx + 4] = normal.y;
-            out[idx + 5] = normal.z;
+            // const right = if (self.getPoint(x + 1, y)) |p| p.position else Vec3.init(@as(f32, @floatFromInt(x)) + 1, point.position.y, @as(f32, @floatFromInt(y)));
+            // const bottom = if (self.getPoint(x, y + y)) |p| p.position else Vec3.init(@as(f32, @floatFromInt(x)), point.position.y, @as(f32, @floatFromInt(y)) + 1);
+
+            // const cross_product = Vec3.cross(
+            //     right.subtract(point.position),
+            //     bottom.subtract(point.position),
+            // );
+
+            // const normal = cross_product.scale(1.0 / cross_product.length());
+
+            // out[idx + 3] = normal.x;
+            // out[idx + 4] = normal.y;
+            // out[idx + 5] = normal.z;
         }
     }
 }
